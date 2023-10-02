@@ -12,6 +12,7 @@ const addBooks = (request, h) => {
         readPage,
         reading,
     } = request.payload;
+
     if (!name) {
         return h.response({
             status: 'fail',
@@ -47,7 +48,9 @@ const addBooks = (request, h) => {
         updatedAt,
     };
     books.push(newBook);
+
     const isSuccess = books.filter((book) => book.id === id).length > 0;
+    
     if (isSuccess) {
         const response = h.response ({
             status: 'success',
@@ -136,13 +139,14 @@ const editBookById = (request, h) => {
         readPage,
         reading,  
     } = request.payload;
+    // Tidak terdapat properti name pada request body
     if (!name) {
         return h.response({
             status: 'fail',
             message: 'Gagal memperbarui buku. Mohon isi nama buku',
         }).code(400);
     }
-
+    // Nilai properti readPage lebih besar dari pageCount pada request body
     if (readPage > pageCount) {
         return h.response({
             status: 'fail',
@@ -185,6 +189,7 @@ const deleteBookById = (request, h) => {
     const index = books.findIndex((book)=>book.id==id);
     if (index!==-1) {
       books.splice(index, 1);
+      
       const response = h.response({
         status: 'success',
         message: 'Buku berhasil dihapus',
